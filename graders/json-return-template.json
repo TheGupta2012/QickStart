@@ -1,12 +1,10 @@
 {
    "team-id":"123",
    "problem":{
-      "2":{
-         "2":{
+      "2.2":{
             "points" : "70",
             "done" : true,
-            "wrong-count":"1"
+            "wrong-count": false 
          }
-      }
    }
 }
