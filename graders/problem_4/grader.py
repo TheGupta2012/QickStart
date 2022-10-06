@@ -65,7 +65,8 @@ def test_loader_2(file_path):
                     f_type = row[0]
                     f_types.append(f_type)
                 else:
-                    test_function = [int(x) for x in row[1:-1].split(",")]
+                    # even has the test
+                    test_function = [int(x) for x in row.split("")]
                     test_functions.append(test_function)
 
     return N, K, f_types, test_functions
@@ -122,7 +123,7 @@ class grader1:
 
                 all_zeros = "0" * grader1.dj_qubits
 
-                # if 00 has non zero prob, function is
+                # if 00 has non zero prob, function is constant
                 if all_zeros in counts:
                     user_func_type = "C"
                 else:
@@ -154,7 +155,6 @@ class grader1:
             with time_limit(grader1.time_limit):
                 success = grader1.run(dj_oracle_2q)
         except:
-            print("here")
             success = False
             tle = True
 
@@ -166,7 +166,7 @@ class grader1:
 
         # request = requests.post(QBRAID_API, data=cls.return_json)
 
-        print("JSON object is :", cls.return_json)
+        # print("JSON object is :", cls.return_json)
         # if request.ok:
         if success:
             print(CORRECT_STMT)
@@ -268,8 +268,8 @@ class grader2:
 class grader3:
     # to do...
 
-    ip_task_path = INPUT_PATH + "task-2-"
-    op_task_path = OUTPUT_PATH + "task-2-"
+    ip_task_path = INPUT_PATH + "task-3-"
+    op_task_path = OUTPUT_PATH + "task-3-"
     total_tests = 10
     time_limit = 60
     return_json = {

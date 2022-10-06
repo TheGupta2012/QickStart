@@ -3,9 +3,9 @@ import random
 
 # print(np.random.binomial(n=1, p=0.5, size=[10]))
 path = "task-3-"
-
 for i in range(0, 10):
     f_path = path + str(i) + ".txt"
+
     N = [4, 8, 16, 32]
     n = random.choice(N)
     k = random.randint(1, 6)
