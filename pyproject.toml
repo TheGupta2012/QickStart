@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qickstart_graders"
+version = "0.0.1"
+
+authors = [
+  { name="Harshit Gupta", email="harshit.11235@gmail.com" },
+]
+
+description = "A grader for QickStart challenge"
+
+readme = "README.md"
+
+requires-python = ">=3.7"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+keywords = [
+    "quantum-computing",
+    "qiskit",
+    "fall-fest",
+    "online-challenge"
+]
+
+dependencies = [
+    "numpy==1.22.2",
+    "qiskit==0.38.0",
+    "qiskit_ignis==0.7.0",
+    "requests==2.22.0"
+]
