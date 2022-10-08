@@ -6,36 +6,38 @@ path = "task-3-"
 for i in range(0, 10):
     f_path = path + str(i) + ".txt"
 
-    N = [4, 8, 16, 32]
+    N = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
     n = random.choice(N)
-    k = random.randint(1, 6)
-
-    b = []
-    c = []
 
     file = open(f_path, mode="w", newline="\n")
-    file.write(str(n) + " " + str(k) + "\n")
 
-    if k > 2:
-        for j in range(0, k - 2):
-            b.append(np.random.binomial(n=1, p=0.5, size=[n]))
-        c.append(np.ones(n))
-        c.append(np.zeros(n))
+    f_type = ["B", "C"]
 
+    curr_type = random.choice(f_type)
+
+    if curr_type == "B":
+
+        function = np.random.binomial(n=1, p=0.5, size=[n])
+        while sum(function) != n / 2:
+            function = np.random.binomial(n=1, p=0.5, size=[n])
     else:
-        for j in range(0, k):
-            b.append(np.random.binomial(n=1, p=0.5, size=[n]))
+        if random.randint(0, 1):
+            function = np.ones(n)
+        else:
+            function = np.zeros(n)
+    function = [int(x) for x in function]
 
-    for j in b:
-        file.write("B\n")
-        for k in j:
-            file.write(str(k) + " ")
-        file.write("\n")
+    # add the type first
+    file.write(f"{curr_type}\n")
+    #     file.write(str(function))
+    file.write("[")
+    ##fi
+    for i, j in enumerate(function):
+        file.write(str(int(j)))
+        if i != (n - 1):
+            file.write(",")
+    file.write("]")
 
-    for j in c:
-        file.write("C\n")
-        for k in j:
-            file.write(str(int(k)) + " ")
-        file.write("\n")
+    file.write("\n")
 
     file.close()

@@ -1,6 +1,6 @@
 import json
 
-
+# will help tp keep this in the server for each team
 def get_init_team_json(team_id):
     challenge = json.load(open("problem-structure.json", "r"))
     team_json = {"team-id": str(team_id)}

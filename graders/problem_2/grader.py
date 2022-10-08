@@ -47,15 +47,11 @@ def test_loader(file_path):
             if row_id == 0:
                 n, m = row.split()
                 n, m = int(n), int(m)
-
+                connectivity = {x: [] for x in range(1, n + 1)}
             # edge rows
             elif row_id >= 1 and row_id <= m:
                 u, v = row.split()
                 u, v = int(u), int(v)
-                if u not in connectivity:
-                    connectivity[u] = []
-                if v not in connectivity:
-                    connectivity[v] = []
 
                 # add edge
                 connectivity[u].append(v)
@@ -144,7 +140,6 @@ class grader1:
 
         # request = requests.post(QBRAID_API, data=cls.return_json)
 
-        print("JSON object is :", cls.return_json)
         # if request.ok:
         if success:
             print(CORRECT_STMT)
@@ -196,6 +191,7 @@ class grader2:
             if actual_swaps == user_min_swaps:
                 correct += 1
             else:
+                print("Failed on ", ip_test_path)
                 break
 
         return correct == grader2.total_tests

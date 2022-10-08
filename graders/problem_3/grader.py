@@ -1,14 +1,40 @@
 from qiskit import execute, QuantumCircuit
+import signal
+from contextlib import contextmanager
 from qiskit import Aer
 from math import pi
 
+
+class TimeOutException(Exception):
+    pass
+
+
+@contextmanager
+def time_limit(seconds):
+    def signal_handler(signum, frame):
+        raise TimeOutException("Timed out!")
+
+    signal.signal(signal.SIGALRM, signal_handler)
+    signal.alarm(seconds)
+    try:
+        yield
+    finally:
+        signal.alarm(0)
+
+
 # some global values
 PI_2 = pi / 2
-correct_stmt = "Congratulations your answer is correct!!"
-wrong_stmt = "Uh-oh, that's not quite correct"
 
-# quantum stuff
-qasm_backend = Aer.get_backend("qasm_simulator")
+INPUT_PATH = "graders/problem_3/tests/inputs/"
+OUTPUT_PATH = "graders/problem_3/tests/outputs/"
+
+CORRECT_STMT = "Congratulations, your answer is correct!"
+WRONG_STMT = "Uh-oh, that's not quite correct :("
+SERVER_STMT = "The server couldn't process your request correctly at the moment, please try again in a while"
+TIME_STMT = "Uh-oh, time limit exceeded for the problem :("
+
+QBRAID_API = None
+BACKEND = Aer.get_backend("qasm_simulator")
 
 # utils
 def initialize(state, qc):
@@ -42,22 +68,51 @@ def get_circuit(state, r1, r2, r3):
     return qc
 
 
+def test_loader_1(file_path):
+    # make it faster ...
+    arz, arx, ary = [], [], []
+
+    with open(file_path, "r") as file:
+        for row_id, row in enumerate(file):
+            if row_id == 0:
+                state = row[0]
+            else:
+                elements = [int(x) for x in row[:-1].split(",")]
+                if row_id == 1:
+                    arz = elements
+                elif row_id == 2:
+                    arx = elements
+                else:
+                    ary = elements
+
+    return state, arz, arx, ary
+
+
 class grader1:
     state_set = {"0", "1", "-", "+", "r", "l"}
 
-    @classmethod
-    def evaluate(cls, generate_bloch_operation):
-        # we will evaluate it on different states
+    time_limit = 5
 
+    return_json = {
+        "team-id": None,
+        "problem": {"3.1": {"points": "40", "done": False, "wrong": False}},
+    }
+
+    @classmethod
+    def get_team_id(cls):
+        return "123"
+
+    @staticmethod
+    def run(generate_bloch_operation):
         correct = 0
-        for state in cls.state_set:
+        for state in grader1.state_set:
             # user code
             try:
                 rotations = generate_bloch_operation(state)
 
                 # execute and check
                 circuit = get_circuit(state, rotations[0], rotations[1], rotations[2])
-                result = execute(circuit, qasm_backend).result()
+                result = execute(circuit, BACKEND).result()
                 counts = result.get_counts()
 
             except:
@@ -65,130 +120,174 @@ class grader1:
             # correct circuit if only 0 present
             if len(counts) == 1 and "0" in counts.keys():
                 correct += 1
+            else:
+                break
 
-        if correct == len(cls.state_set):
-            # do something with the API
-            json_response = {}
+        return correct == len(grader1.state_set)
 
-            # return something to the jupyter notebook
-            print(correct_stmt)
+    @classmethod
+    def evaluate(cls, generate_bloch_operation):
+        # we will evaluate it on different states
+        cls.return_json["team-id"] = cls.get_team_id()
+        tle = False
+
+        try:
+            with time_limit(grader1.time_limit):
+                success = grader1.run(generate_bloch_operation)
+        except:
+            success = False
+            tle = True
+
+        # update json
+        cls.return_json["problem"]["3.1"]["done"] = success
+        cls.return_json["problem"]["3.1"]["wrong"] = not success
+
+        # post to the sheet
+        """ to do"""
+
+        if success:
+            print(CORRECT_STMT)
         else:
-            # do something with the API
-
-            # return something to the jupyter notebook
-            print(wrong_stmt)
+            if tle:
+                print(TIME_STMT)
+            else:
+                print(WRONG_STMT)
 
 
 class grader2:
-    input_path = "tests/input/task-2-"
-    # path is like 2-1, 2-2, 2-3, ...
+    state_set = {"0", "1", "-", "+", "r", "l"}
+    ip_task_path = INPUT_PATH + "task-2-"
+    op_task_path = OUTPUT_PATH + "task-2-"
+    total_tests = 10
+    time_limit = 10
+
+    return_json = {
+        "team-id": None,
+        "problem": {"3.2": {"points": "60", "done": False, "wrong": False}},
+    }
 
     @classmethod
-    def _check_circuit(cls, state, circuit):
+    def get_team_id(cls):
+        return "123"
 
-        qc = QuantumCircuit(1)
-        initialize(state, qc)
-        qc.compose(circuit, qubits=[0], inplace=True)
-        qc.measure_all()
-        result = execute(qc, qasm_backend, shots=10).result()
-        counts = result.get_counts()
+    @staticmethod
+    def run(get_total_bloch_ops):
+        # run the tests
+        correct = 0
 
-        return len(counts) == 1 and "0" in counts.keys()
+        for test in range(10):
+            ip_test_path = grader2.ip_task_path + str(test) + ".txt"
+
+            state, arz, arx, ary = test_loader_1(ip_test_path)
+
+            user_total = get_total_bloch_ops(state, arz, arx, ary)
+
+            # read the bloch ops from the outputs
+
+            op_test_path = grader2.op_task_path + str(test) + ".txt"
+
+            expected_total = int(open(op_test_path).readlines()[0])
+
+            if user_total == expected_total:
+                correct += 1
+            else:
+                break
+
+        return correct == grader2.total_tests
 
     @classmethod
     def evaluate(cls, get_total_bloch_ops):
-        # run the tests
+        # we will evaluate it on different states
+        cls.return_json["team-id"] = cls.get_team_id()
+        tle = False
 
-        for test in range(10):
-            test_input_path = cls.input_path + str(test) + ".txt"
+        try:
+            with time_limit(grader2.time_limit):
+                success = grader2.run(get_total_bloch_ops)
+        except:
+            success = False
+            tle = True
 
-            file_rows = open(test_input_path).readlines()
-            # the first line is the state
-            state = file_rows[0][0]
+        # update json
+        cls.return_json["problem"]["3.2"]["done"] = success
+        cls.return_json["problem"]["3.2"]["wrong"] = not success
 
-            # other lines are the lists
-            arz, arx, ary = (
-                file_rows[1][:-1].split(","),
-                file_rows[2][:-1].split(","),
-                file_rows[3][:-1].split(","),
-            )
+        # post to the sheet
+        """ to do"""
 
-            print(arz, arx, ary)
-            n, m, k = len(arz), len(arx), len(ary)
-
-            # user operation
-            user_total, user_bloch_ops = get_total_bloch_ops(state, arz, arx, ary)
-
-            # incorrect
-            if user_total != len(user_bloch_ops):
-                # wrong answer
-                # do something to API
-
-                print(wrong_stmt)
-                return
-
-            # now check
-            total_bloch_ops = 0
-            bloch_ops = set()
-
-            # now build our own
-            for i in range(n):
-                for j in range(m):
-                    for s in range(k):
-                        circuit = get_circuit(
-                            state, int(arz[i]), int(arx[j]), int(ary[s])
-                        )
-
-                        result = execute(circuit, qasm_backend, shots=10).result()
-                        counts = result.get_counts()
-
-                        if len(counts) == 1 and "0" in counts.keys():
-                            total_bloch_ops += 1
-                            bloch_ops.add((i, j, s))
-                            # print("Adding ", i, j, s)
-
-            # now search
-            condition1 = user_total == total_bloch_ops
-
-            condition2 = True
-
-            # check
-            for bloch_op in user_bloch_ops:
-                try:
-                    print(bloch_op)
-                    if bloch_op[0] in bloch_ops and cls._check_circuit(
-                        state, bloch_op[1]
-                    ):
-                        print(bloch_op[1].draw())
-                        continue
-                    else:
-                        condition2 = False
-                        break
-                except:
-                    condition2 = False
-                    break
-
-            if condition1 and condition2:
-                # continue for other tests
-                continue
+        if success:
+            print(CORRECT_STMT)
+        else:
+            if tle:
+                print(TIME_STMT)
             else:
-                # do something in API
-
-                # return wrong stmt
-
-                print(wrong_stmt)
-                return
-
-        # correct
-        # do something to api
-
-        print(correct_stmt)
+                print(WRONG_STMT)
 
 
 class grader3:
-    input_path = "tests/input/task-3.txt"
-    output_path = "tests/output/task-3.txt"
+    ip_task_path = INPUT_PATH + "task-3-"
+    op_task_path = OUTPUT_PATH + "task-3-"
+    total_tests = 10
+    time_limit = 10
 
-    # here only the comparison needs to be done
+    return_json = {
+        "team-id": None,
+        "problem": {"3.3": {"points": "100", "done": False, "wrong": False}},
+    }
 
-    # to do...
+    @classmethod
+    def get_team_id(cls):
+        return "123"
+
+    @staticmethod
+    def run(get_larger_total_bloch_ops):
+        # run the tests
+        correct = 0
+
+        for test in range(10):
+            ip_test_path = grader3.ip_task_path + str(test) + ".txt"
+
+            state, arz, arx, ary = test_loader_1(ip_test_path)
+
+            user_total = get_larger_total_bloch_ops(state, arz, arx, ary)
+
+            # read the bloch ops from the outputs
+
+            op_test_path = grader3.op_task_path + str(test) + ".txt"
+
+            expected_total = int(open(op_test_path).readlines()[0])
+
+            if user_total == expected_total:
+                correct += 1
+            else:
+                break
+
+        return correct == grader3.total_tests
+
+    @classmethod
+    def evaluate(cls, get_larger_total_bloch_ops):
+        # we will evaluate it on different states
+        cls.return_json["team-id"] = cls.get_team_id()
+        tle = False
+
+        try:
+            with time_limit(grader3.time_limit):
+                success = grader3.run(get_larger_total_bloch_ops)
+        except:
+            success = False
+            tle = True
+
+        # update json
+        cls.return_json["problem"]["3.3"]["done"] = success
+        cls.return_json["problem"]["3.3"]["wrong"] = not success
+
+        # post to the sheet
+        """ to do"""
+
+        if success:
+            print(CORRECT_STMT)
+        else:
+            if tle:
+                print(TIME_STMT)
+            else:
+                print(WRONG_STMT)
