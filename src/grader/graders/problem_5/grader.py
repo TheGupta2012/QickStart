@@ -6,6 +6,7 @@ from qiskit.circuit import qpy_serialization
 from .answer import get_qram, get_qram_rotations
 from numpy import exp, floor, ceil, log2
 
+from ..google_sheets import append_values
 
 # for the time out management
 
@@ -160,8 +161,8 @@ class grader1:
 
         # post the json to server
 
-        # request = requests.post(QBRAID_API, data=cls.return_json)
-        # print("JSON object is :", cls.return_json)
+        append_values([cls.return_json["team-id"],"5.1",cls.return_json["problem"]["5.1"]["points"],cls.return_json["problem"]["5.1"]["done"],cls.return_json["problem"]["5.1"]["wrong"]])
+
         # if request.ok:
         if success:
             print(CORRECT_STMT)
@@ -256,7 +257,8 @@ class grader2:
 
         # post the json to server : to do
 
-        # request = requests.post(QBRAID_API, data=cls.return_json)
+        append_values([cls.return_json["team-id"],"5.2",cls.return_json["problem"]["5.2"]["points"],cls.return_json["problem"]["5.2"]["done"],cls.return_json["problem"]["5.2"]["wrong"]])
+
 
         # if request.ok:
         if success:
@@ -354,7 +356,8 @@ class grader3:
 
         # post the json to server : to do
 
-        # request = requests.post(QBRAID_API, data=cls.return_json)
+        append_values([cls.return_json["team-id"],"5.3",cls.return_json["problem"]["5.3"]["points"],cls.return_json["problem"]["5.3"]["done"],cls.return_json["problem"]["5.3"]["wrong"]])
+
 
         # if request.ok:
         if success:

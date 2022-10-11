@@ -4,6 +4,7 @@ from contextlib import contextmanager
 from qiskit import Aer
 from math import pi
 
+from ..google_sheets import append_values
 
 class TimeOutException(Exception):
     pass
@@ -143,7 +144,7 @@ class grader1:
         cls.return_json["problem"]["3.1"]["wrong"] = not success
 
         # post to the sheet
-        """ to do"""
+        append_values([cls.return_json["team-id"],"3.1",cls.return_json["problem"]["3.1"]["points"],cls.return_json["problem"]["3.1"]["done"],cls.return_json["problem"]["3.1"]["wrong"]])
 
         if success:
             print(CORRECT_STMT)
@@ -213,7 +214,7 @@ class grader2:
         cls.return_json["problem"]["3.2"]["wrong"] = not success
 
         # post to the sheet
-        """ to do"""
+        append_values([cls.return_json["team-id"],"3.2",cls.return_json["problem"]["3.2"]["points"],cls.return_json["problem"]["3.2"]["done"],cls.return_json["problem"]["3.2"]["wrong"]])
 
         if success:
             print(CORRECT_STMT)
@@ -282,7 +283,7 @@ class grader3:
         cls.return_json["problem"]["3.3"]["wrong"] = not success
 
         # post to the sheet
-        """ to do"""
+        append_values([cls.return_json["team-id"],"3.3",cls.return_json["problem"]["3.3"]["points"],cls.return_json["problem"]["3.3"]["done"],cls.return_json["problem"]["3.3"]["wrong"]])
 
         if success:
             print(CORRECT_STMT)

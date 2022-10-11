@@ -1,7 +1,8 @@
 # simple graph problem
 import signal
 from contextlib import contextmanager
-import requests
+
+from ..google_sheets import append_values
 
 # for the time out management
 
@@ -138,7 +139,7 @@ class grader1:
 
         # post the json to server
 
-        # request = requests.post(QBRAID_API, data=cls.return_json)
+        append_values([cls.return_json["team-id"],"2.1",cls.return_json["problem"]["2.1"]["points"],cls.return_json["problem"]["2.1"]["done"],cls.return_json["problem"]["2.1"]["wrong"]])
 
         # if request.ok:
         if success:
@@ -218,7 +219,7 @@ class grader2:
 
         # post the json to server : to do
 
-        # request = requests.post(QBRAID_API, data=cls.return_json)
+        append_values([cls.return_json["team-id"],"2.2",cls.return_json["problem"]["2.2"]["points"],cls.return_json["problem"]["2.2"]["done"],cls.return_json["problem"]["2.2"]["wrong"]])
 
         # if request.ok:
         if success:
