@@ -3,7 +3,8 @@ import signal
 from contextlib import contextmanager
 from qiskit import execute, QuantumCircuit, Aer
 import numpy as np
-import requests
+
+from ..google_sheets import append_values
 
 
 # for the time out management
@@ -158,7 +159,7 @@ class grader1:
 
         # post the json to server
 
-        # request = requests.post(QBRAID_API, data=cls.return_json)
+        append_values([cls.return_json["team-id"],"4.1",cls.return_json["problem"]["4.1"]["points"],cls.return_json["problem"]["4.1"]["done"],cls.return_json["problem"]["4.1"]["wrong"]])
 
         # print("JSON object is :", cls.return_json)
         # if request.ok:
@@ -241,7 +242,7 @@ class grader2:
 
         # post the json to server : to do
 
-        # request = requests.post(QBRAID_API, data=cls.return_json)
+        append_values([cls.return_json["team-id"],"4.2",cls.return_json["problem"]["4.2"]["points"],cls.return_json["problem"]["4.2"]["done"],cls.return_json["problem"]["4.2"]["wrong"]])
 
         # if request.ok:
         if success:
@@ -326,7 +327,8 @@ class grader3:
 
         # post the json to server : to do
 
-        # request = requests.post(QBRAID_API, data=cls.return_json)
+        append_values([cls.return_json["team-id"],"4.2",cls.return_json["problem"]["4.2"]["points"],cls.return_json["problem"]["4.2"]["done"],cls.return_json["problem"]["4.2"]["wrong"]])
+
 
         # if request.ok:
         if success:

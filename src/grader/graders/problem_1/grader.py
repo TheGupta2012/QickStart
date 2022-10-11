@@ -3,7 +3,7 @@ from contextlib import contextmanager
 from qiskit import execute, QuantumCircuit, Aer
 import numpy as np
 from .answer import get_bell, get_even_odd
-
+from ..google_sheets import append_values
 
 # for the time out management
 
@@ -94,8 +94,9 @@ class grader1:
         # update json
         cls.return_json["problem"]["1.1"]["done"] = success
         cls.return_json["problem"]["1.1"]["wrong"] = not success
-
+        print(cls.return_json)
         # post the json to server
+        append_values([cls.return_json["team-id"],"1.1",cls.return_json["problem"]["1.1"]["points"],cls.return_json["problem"]["1.1"]["done"],cls.return_json["problem"]["1.1"]["wrong"]])
 
         # request = requests.post(QBRAID_API, data=cls.return_json)
         # print("JSON object is :", cls.return_json)
@@ -176,7 +177,7 @@ class grader2:
 
         # post the json to server : to do
 
-        # request = requests.post(QBRAID_API, data=cls.return_json)
+        append_values([cls.return_json["team-id"],"1.2",cls.return_json["problem"]["1.2"]["points"],cls.return_json["problem"]["1.2"]["done"],cls.return_json["problem"]["1.2"]["wrong"]])
 
         # if request.ok:
         if success:
@@ -258,8 +259,7 @@ class grader3:
 
         # post the json to server : to do
 
-        # request = requests.post(QBRAID_API, data=cls.return_json)
-
+        append_values([cls.return_json["team-id"],"1.3",cls.return_json["problem"]["1.3"]["points"],cls.return_json["problem"]["1.3"]["done"],cls.return_json["problem"]["1.3"]["wrong"]])
         # if request.ok:
         if success:
             print(CORRECT_STMT)

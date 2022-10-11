@@ -2,3 +2,6 @@ numpy==1.22.2
 qiskit==0.38.0
 qiskit_ignis==0.7.0
 requests==2.22.0
+google-auth==2.3.3
+google-api-python-client==2.31.0
+oauth2client==4.1.3
