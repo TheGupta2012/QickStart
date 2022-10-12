@@ -29,8 +29,8 @@ def time_limit(seconds):
         signal.alarm(0)
 
 
-INPUT_PATH = "graders/problem_5/tests/inputs/"
-OUTPUT_PATH = "graders/problem_5/tests/outputs/"
+INPUT_PATH = "src/grader/graders/problem_5/tests/inputs/"
+OUTPUT_PATH = "src/grader/graders/problem_5/tests/outputs/"
 
 CORRECT_STMT = "Congratulations, your answer is correct!"
 WRONG_STMT = "Uh-oh, that's not quite correct :("

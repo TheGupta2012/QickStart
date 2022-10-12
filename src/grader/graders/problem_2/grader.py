@@ -25,8 +25,8 @@ def time_limit(seconds):
         signal.alarm(0)
 
 
-INPUT_PATH = "graders/problem_2/tests/inputs/"
-OUTPUT_PATH = "graders/problem_2/tests/outputs/"
+INPUT_PATH = "src/grader/graders/problem_2/tests/inputs/"
+OUTPUT_PATH = "src/grader/graders/problem_2/tests/outputs/"
 
 CORRECT_STMT = "Congratulations, your answer is correct!"
 WRONG_STMT = "Uh-oh, that's not quite correct :("
@@ -42,7 +42,6 @@ def test_loader(file_path):
         controls = []
         targets = []
         connectivity = {}
-
         for row_id, row in enumerate(file):
 
             # first row
@@ -136,7 +135,6 @@ class grader1:
             with time_limit(grader1.time_limit):
                 success = grader1.run(get_min_swaps_line)
         except:
-            print("here")
             success = False
             tle = True
 

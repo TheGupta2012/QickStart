@@ -29,8 +29,8 @@ def time_limit(seconds):
 # some global values
 PI_2 = pi / 2
 
-INPUT_PATH = "graders/problem_3/tests/inputs/"
-OUTPUT_PATH = "graders/problem_3/tests/outputs/"
+INPUT_PATH = "src/grader/graders/problem_3/tests/inputs/"
+OUTPUT_PATH = "src/grader/graders/problem_3/tests/outputs/"
 
 CORRECT_STMT = "Congratulations, your answer is correct!"
 WRONG_STMT = "Uh-oh, that's not quite correct :("
@@ -178,7 +178,7 @@ class grader2:
     ip_task_path = INPUT_PATH + "task-2-"
     op_task_path = OUTPUT_PATH + "task-2-"
     total_tests = 10
-    time_limit = 10
+    time_limit = 20
 
     return_json = {
         "team-id": None,
