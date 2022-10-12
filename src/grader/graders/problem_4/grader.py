@@ -367,10 +367,10 @@ class grader3:
         append_values(
             [
                 cls.return_json["team-id"],
-                "4.2",
-                cls.return_json["problem"]["4.2"]["points"],
-                cls.return_json["problem"]["4.2"]["done"],
-                cls.return_json["problem"]["4.2"]["wrong"],
+                "4.3",
+                cls.return_json["problem"]["4.3"]["points"],
+                cls.return_json["problem"]["4.3"]["done"],
+                cls.return_json["problem"]["4.3"]["wrong"],
             ]
         )
 
