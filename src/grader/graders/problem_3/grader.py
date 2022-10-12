@@ -29,8 +29,8 @@ def time_limit(seconds):
 # some global values
 PI_2 = pi / 2
 
-INPUT_PATH = "src/grader/graders/problem_3/tests/inputs/"
-OUTPUT_PATH = "src/grader/graders/problem_3/tests/outputs/"
+INPUT_PATH = "./tests/inputs/"
+OUTPUT_PATH = "./tests/outputs/"
 
 CORRECT_STMT = "Congratulations, your answer is correct!"
 WRONG_STMT = "Uh-oh, that's not quite correct :("
