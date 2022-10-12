@@ -1,3 +1,5 @@
+import os
+
 from qiskit import execute, QuantumCircuit
 import signal
 from contextlib import contextmanager
@@ -101,7 +103,8 @@ class grader1:
 
     @classmethod
     def get_team_id(cls):
-        return "123"
+        value = os.getenv("TEAMID", "Please enter your TEAMID")
+        return value
 
     @staticmethod
     def run(generate_bloch_operation):
@@ -129,7 +132,11 @@ class grader1:
     @classmethod
     def evaluate(cls, generate_bloch_operation):
         # we will evaluate it on different states
-        cls.return_json["team-id"] = cls.get_team_id()
+        if 'TEAMID' in os.environ:
+            cls.return_json["team-id"] = cls.get_team_id()
+        else:
+            cls.return_json["team-id"] = "NO TEAMID"
+            print("Please add your TEAMID as an env variable") 
         tle = False
 
         try:
@@ -169,7 +176,8 @@ class grader2:
 
     @classmethod
     def get_team_id(cls):
-        return "123"
+        value = os.getenv("TEAMID", "Please enter your TEAMID")
+        return value
 
     @staticmethod
     def run(get_total_bloch_ops):
@@ -199,7 +207,11 @@ class grader2:
     @classmethod
     def evaluate(cls, get_total_bloch_ops):
         # we will evaluate it on different states
-        cls.return_json["team-id"] = cls.get_team_id()
+        if 'TEAMID' in os.environ:
+            cls.return_json["team-id"] = cls.get_team_id()
+        else:
+            cls.return_json["team-id"] = "NO TEAMID"
+            print("Please add your TEAMID as an env variable") 
         tle = False
 
         try:
@@ -238,7 +250,8 @@ class grader3:
 
     @classmethod
     def get_team_id(cls):
-        return "123"
+        value = os.getenv("TEAMID", "Please enter your TEAMID")
+        return value
 
     @staticmethod
     def run(get_larger_total_bloch_ops):
@@ -268,7 +281,11 @@ class grader3:
     @classmethod
     def evaluate(cls, get_larger_total_bloch_ops):
         # we will evaluate it on different states
-        cls.return_json["team-id"] = cls.get_team_id()
+        if 'TEAMID' in os.environ:
+            cls.return_json["team-id"] = cls.get_team_id()
+        else:
+            cls.return_json["team-id"] = "NO TEAMID"
+            print("Please add your TEAMID as an env variable") 
         tle = False
 
         try:
