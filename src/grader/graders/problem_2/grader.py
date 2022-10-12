@@ -124,11 +124,12 @@ class grader1:
         # if it is within limits, it will be fine
 
         # update team
-        if 'TEAMID' in os.environ:
+        if "TEAMID" in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
             cls.return_json["team-id"] = "NO TEAMID"
-            print("Please add your TEAMID as an env variable") 
+            print("Please add your TEAMID as an env variable")
+            return
         tle = False
 
         try:
@@ -145,7 +146,15 @@ class grader1:
 
         # post the json to server
 
-        append_values([cls.return_json["team-id"],"2.1",cls.return_json["problem"]["2.1"]["points"],cls.return_json["problem"]["2.1"]["done"],cls.return_json["problem"]["2.1"]["wrong"]])
+        append_values(
+            [
+                cls.return_json["team-id"],
+                "2.1",
+                cls.return_json["problem"]["2.1"]["points"],
+                cls.return_json["problem"]["2.1"]["done"],
+                cls.return_json["problem"]["2.1"]["wrong"],
+            ]
+        )
 
         # if request.ok:
         if success:
@@ -210,11 +219,13 @@ class grader2:
         # if it is within limits, it will be fine
 
         # update team
-        if 'TEAMID' in os.environ:
+        if "TEAMID" in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
             cls.return_json["team-id"] = "NO TEAMID"
-            print("Please add your TEAMID as an env variable") 
+            print("Please add your TEAMID as an env variable")
+            return
+
         tle = False
 
         try:
@@ -230,7 +241,15 @@ class grader2:
 
         # post the json to server : to do
 
-        append_values([cls.return_json["team-id"],"2.2",cls.return_json["problem"]["2.2"]["points"],cls.return_json["problem"]["2.2"]["done"],cls.return_json["problem"]["2.2"]["wrong"]])
+        append_values(
+            [
+                cls.return_json["team-id"],
+                "2.2",
+                cls.return_json["problem"]["2.2"]["points"],
+                cls.return_json["problem"]["2.2"]["done"],
+                cls.return_json["problem"]["2.2"]["wrong"],
+            ]
+        )
 
         # if request.ok:
         if success:

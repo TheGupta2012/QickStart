@@ -84,11 +84,13 @@ class grader1:
     @classmethod
     def evaluate(cls, make_bell):
         # update team
-        if 'TEAMID' in os.environ:
+        if "TEAMID" in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
             cls.return_json["team-id"] = "NO TEAMID"
-            print("Please add your TEAMID as an env variable") 
+            print("Please add your TEAMID as an env variable")
+            return
+
         tle = False
 
         try:
@@ -101,12 +103,18 @@ class grader1:
         # update json
         cls.return_json["problem"]["1.1"]["done"] = success
         cls.return_json["problem"]["1.1"]["wrong"] = not success
-        print(cls.return_json)
-        # post the json to server
-        append_values([cls.return_json["team-id"],"1.1",cls.return_json["problem"]["1.1"]["points"],cls.return_json["problem"]["1.1"]["done"],cls.return_json["problem"]["1.1"]["wrong"]])
 
-        # request = requests.post(QBRAID_API, data=cls.return_json)
-        # print("JSON object is :", cls.return_json)
+        # post the json to server
+        append_values(
+            [
+                cls.return_json["team-id"],
+                "1.1",
+                cls.return_json["problem"]["1.1"]["points"],
+                cls.return_json["problem"]["1.1"]["done"],
+                cls.return_json["problem"]["1.1"]["wrong"],
+            ]
+        )
+
         # if request.ok:
         if success:
             print(CORRECT_STMT)
@@ -132,6 +140,7 @@ class grader2:
     def get_team_id(cls):
         value = os.getenv("TEAMID", "Please enter your TEAMID")
         return value
+
     @staticmethod
     def run(equal_superposition):
 
@@ -168,11 +177,12 @@ class grader2:
     def evaluate(cls, make_superposition):
 
         # update team
-        if 'TEAMID' in os.environ:
+        if "TEAMID" in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
             cls.return_json["team-id"] = "NO TEAMID"
-            print("Please add your TEAMID as an env variable") 
+            print("Please add your TEAMID as an env variable")
+            return
         tle = False
         success = False
         try:
@@ -188,7 +198,15 @@ class grader2:
 
         # post the json to server : to do
 
-        append_values([cls.return_json["team-id"],"1.2",cls.return_json["problem"]["1.2"]["points"],cls.return_json["problem"]["1.2"]["done"],cls.return_json["problem"]["1.2"]["wrong"]])
+        append_values(
+            [
+                cls.return_json["team-id"],
+                "1.2",
+                cls.return_json["problem"]["1.2"]["points"],
+                cls.return_json["problem"]["1.2"]["done"],
+                cls.return_json["problem"]["1.2"]["wrong"],
+            ]
+        )
 
         # if request.ok:
         if success:
@@ -237,11 +255,7 @@ class grader3:
 
                 expected_even_statevector, expected_odd_statevector = get_even_odd(n)
 
-                """Diff output format for statevectors!!"""
-                # op_test_path = grader1.op_task_path + str(test) + ".json"
-
             except:
-                print("d")
                 break
             condition1 = user_even_statevector == expected_even_statevector
             condition2 = user_odd_statevector == expected_odd_statevector
@@ -255,11 +269,12 @@ class grader3:
     @classmethod
     def evaluate(cls, make_even_odd):
         # update team
-        if 'TEAMID' in os.environ:
+        if "TEAMID" in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
             cls.return_json["team-id"] = "NO TEAMID"
-            print("Please add your TEAMID as an env variable") 
+            print("Please add your TEAMID as an env variable")
+            return
         tle = False
 
         try:
@@ -275,7 +290,15 @@ class grader3:
 
         # post the json to server : to do
 
-        append_values([cls.return_json["team-id"],"1.3",cls.return_json["problem"]["1.3"]["points"],cls.return_json["problem"]["1.3"]["done"],cls.return_json["problem"]["1.3"]["wrong"]])
+        append_values(
+            [
+                cls.return_json["team-id"],
+                "1.3",
+                cls.return_json["problem"]["1.3"]["points"],
+                cls.return_json["problem"]["1.3"]["done"],
+                cls.return_json["problem"]["1.3"]["wrong"],
+            ]
+        )
         # if request.ok:
         if success:
             print(CORRECT_STMT)
