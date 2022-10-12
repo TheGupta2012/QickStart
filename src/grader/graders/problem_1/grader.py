@@ -84,6 +84,7 @@ class grader1:
     @classmethod
     def evaluate(cls, make_bell):
         # update team
+ 
         if 'TEAMID' in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
