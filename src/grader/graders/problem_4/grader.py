@@ -1,4 +1,5 @@
 # simple graph problem
+import os
 import signal
 from contextlib import contextmanager
 from qiskit import execute, QuantumCircuit, Aer
@@ -99,7 +100,8 @@ class grader1:
 
     @classmethod
     def get_team_id(cls):
-        return "123"
+        value = os.getenv("TEAMID", "Please enter your TEAMID")
+        return value
 
     @staticmethod
     def run(dj_circuit_2q):
@@ -143,7 +145,11 @@ class grader1:
         # if it is within limits, it will be fine
 
         # update team
-        cls.return_json["team-id"] = cls.get_team_id()
+        if 'TEAMID' in os.environ:
+            cls.return_json["team-id"] = cls.get_team_id()
+        else:
+            cls.return_json["team-id"] = "NO TEAMID"
+            print("Please add your TEAMID as an env variable") 
         tle = False
 
         try:
@@ -186,7 +192,8 @@ class grader2:
 
     @classmethod
     def get_team_id(cls):
-        pass
+        value = os.getenv("TEAMID", "Please enter your TEAMID")
+        return value
 
     @staticmethod
     def run(dj_circuit_4q):
@@ -226,7 +233,11 @@ class grader2:
         # if it is within limits, it will be fine
 
         # update team
-        cls.return_json["team-id"] = cls.get_team_id()
+        if 'TEAMID' in os.environ:
+            cls.return_json["team-id"] = cls.get_team_id()
+        else:
+            cls.return_json["team-id"] = "NO TEAMID"
+            print("Please add your TEAMID as an env variable") 
         tle = False
 
         try:
@@ -311,7 +322,11 @@ class grader3:
         # if it is within limits, it will be fine
 
         # update team
-        cls.return_json["team-id"] = cls.get_team_id()
+        if 'TEAMID' in os.environ:
+            cls.return_json["team-id"] = cls.get_team_id()
+        else:
+            cls.return_json["team-id"] = "NO TEAMID"
+            print("Please add your TEAMID as an env variable") 
         tle = False
 
         try:
