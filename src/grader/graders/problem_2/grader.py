@@ -25,8 +25,8 @@ def time_limit(seconds):
         signal.alarm(0)
 
 
-INPUT_PATH = "graders/problem_2/tests/inputs/"
-OUTPUT_PATH = "graders/problem_2/tests/outputs/"
+INPUT_PATH = "src/grader/graders/problem_2/tests/inputs/"
+OUTPUT_PATH = "src/grader/graders/problem_2/tests/outputs/"
 
 CORRECT_STMT = "Congratulations, your answer is correct!"
 WRONG_STMT = "Uh-oh, that's not quite correct :("
@@ -42,7 +42,6 @@ def test_loader(file_path):
         controls = []
         targets = []
         connectivity = {}
-
         for row_id, row in enumerate(file):
 
             # first row
@@ -124,18 +123,18 @@ class grader1:
         # if it is within limits, it will be fine
 
         # update team
-        if 'TEAMID' in os.environ:
+        if "TEAMID" in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
             cls.return_json["team-id"] = "NO TEAMID"
-            print("Please add your TEAMID as an env variable") 
+            print("Please add your TEAMID as an env variable")
+            return
         tle = False
 
         try:
             with time_limit(grader1.time_limit):
                 success = grader1.run(get_min_swaps_line)
         except:
-            print("here")
             success = False
             tle = True
 
@@ -145,7 +144,15 @@ class grader1:
 
         # post the json to server
 
-        append_values([cls.return_json["team-id"],"2.1",cls.return_json["problem"]["2.1"]["points"],cls.return_json["problem"]["2.1"]["done"],cls.return_json["problem"]["2.1"]["wrong"]])
+        append_values(
+            [
+                cls.return_json["team-id"],
+                "2.1",
+                cls.return_json["problem"]["2.1"]["points"],
+                cls.return_json["problem"]["2.1"]["done"],
+                cls.return_json["problem"]["2.1"]["wrong"],
+            ]
+        )
 
         # if request.ok:
         if success:
@@ -210,11 +217,13 @@ class grader2:
         # if it is within limits, it will be fine
 
         # update team
-        if 'TEAMID' in os.environ:
+        if "TEAMID" in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
             cls.return_json["team-id"] = "NO TEAMID"
-            print("Please add your TEAMID as an env variable") 
+            print("Please add your TEAMID as an env variable")
+            return
+
         tle = False
 
         try:
@@ -230,7 +239,15 @@ class grader2:
 
         # post the json to server : to do
 
-        append_values([cls.return_json["team-id"],"2.2",cls.return_json["problem"]["2.2"]["points"],cls.return_json["problem"]["2.2"]["done"],cls.return_json["problem"]["2.2"]["wrong"]])
+        append_values(
+            [
+                cls.return_json["team-id"],
+                "2.2",
+                cls.return_json["problem"]["2.2"]["points"],
+                cls.return_json["problem"]["2.2"]["done"],
+                cls.return_json["problem"]["2.2"]["wrong"],
+            ]
+        )
 
         # if request.ok:
         if success:

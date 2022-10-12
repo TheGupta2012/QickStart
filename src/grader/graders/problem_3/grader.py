@@ -8,6 +8,7 @@ from math import pi
 
 from ..google_sheets import append_values
 
+
 class TimeOutException(Exception):
     pass
 
@@ -28,8 +29,8 @@ def time_limit(seconds):
 # some global values
 PI_2 = pi / 2
 
-INPUT_PATH = "graders/problem_3/tests/inputs/"
-OUTPUT_PATH = "graders/problem_3/tests/outputs/"
+INPUT_PATH = "src/grader/graders/problem_3/tests/inputs/"
+OUTPUT_PATH = "src/grader/graders/problem_3/tests/outputs/"
 
 CORRECT_STMT = "Congratulations, your answer is correct!"
 WRONG_STMT = "Uh-oh, that's not quite correct :("
@@ -132,11 +133,13 @@ class grader1:
     @classmethod
     def evaluate(cls, generate_bloch_operation):
         # we will evaluate it on different states
-        if 'TEAMID' in os.environ:
+        if "TEAMID" in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
             cls.return_json["team-id"] = "NO TEAMID"
-            print("Please add your TEAMID as an env variable") 
+            print("Please add your TEAMID as an env variable")
+            return
+
         tle = False
 
         try:
@@ -151,7 +154,15 @@ class grader1:
         cls.return_json["problem"]["3.1"]["wrong"] = not success
 
         # post to the sheet
-        append_values([cls.return_json["team-id"],"3.1",cls.return_json["problem"]["3.1"]["points"],cls.return_json["problem"]["3.1"]["done"],cls.return_json["problem"]["3.1"]["wrong"]])
+        append_values(
+            [
+                cls.return_json["team-id"],
+                "3.1",
+                cls.return_json["problem"]["3.1"]["points"],
+                cls.return_json["problem"]["3.1"]["done"],
+                cls.return_json["problem"]["3.1"]["wrong"],
+            ]
+        )
 
         if success:
             print(CORRECT_STMT)
@@ -167,7 +178,7 @@ class grader2:
     ip_task_path = INPUT_PATH + "task-2-"
     op_task_path = OUTPUT_PATH + "task-2-"
     total_tests = 10
-    time_limit = 10
+    time_limit = 20
 
     return_json = {
         "team-id": None,
@@ -207,11 +218,13 @@ class grader2:
     @classmethod
     def evaluate(cls, get_total_bloch_ops):
         # we will evaluate it on different states
-        if 'TEAMID' in os.environ:
+        if "TEAMID" in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
             cls.return_json["team-id"] = "NO TEAMID"
-            print("Please add your TEAMID as an env variable") 
+            print("Please add your TEAMID as an env variable")
+            return
+
         tle = False
 
         try:
@@ -226,7 +239,15 @@ class grader2:
         cls.return_json["problem"]["3.2"]["wrong"] = not success
 
         # post to the sheet
-        append_values([cls.return_json["team-id"],"3.2",cls.return_json["problem"]["3.2"]["points"],cls.return_json["problem"]["3.2"]["done"],cls.return_json["problem"]["3.2"]["wrong"]])
+        append_values(
+            [
+                cls.return_json["team-id"],
+                "3.2",
+                cls.return_json["problem"]["3.2"]["points"],
+                cls.return_json["problem"]["3.2"]["done"],
+                cls.return_json["problem"]["3.2"]["wrong"],
+            ]
+        )
 
         if success:
             print(CORRECT_STMT)
@@ -281,11 +302,13 @@ class grader3:
     @classmethod
     def evaluate(cls, get_larger_total_bloch_ops):
         # we will evaluate it on different states
-        if 'TEAMID' in os.environ:
+        if "TEAMID" in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
             cls.return_json["team-id"] = "NO TEAMID"
-            print("Please add your TEAMID as an env variable") 
+            print("Please add your TEAMID as an env variable")
+            return
+
         tle = False
 
         try:
@@ -300,7 +323,15 @@ class grader3:
         cls.return_json["problem"]["3.3"]["wrong"] = not success
 
         # post to the sheet
-        append_values([cls.return_json["team-id"],"3.3",cls.return_json["problem"]["3.3"]["points"],cls.return_json["problem"]["3.3"]["done"],cls.return_json["problem"]["3.3"]["wrong"]])
+        append_values(
+            [
+                cls.return_json["team-id"],
+                "3.3",
+                cls.return_json["problem"]["3.3"]["points"],
+                cls.return_json["problem"]["3.3"]["done"],
+                cls.return_json["problem"]["3.3"]["wrong"],
+            ]
+        )
 
         if success:
             print(CORRECT_STMT)

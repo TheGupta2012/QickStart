@@ -29,8 +29,8 @@ def time_limit(seconds):
         signal.alarm(0)
 
 
-INPUT_PATH = "graders/problem_5/tests/inputs/"
-OUTPUT_PATH = "graders/problem_5/tests/outputs/"
+INPUT_PATH = "src/grader/graders/problem_5/tests/inputs/"
+OUTPUT_PATH = "src/grader/graders/problem_5/tests/outputs/"
 
 CORRECT_STMT = "Congratulations, your answer is correct!"
 WRONG_STMT = "Uh-oh, that's not quite correct :("
@@ -147,11 +147,13 @@ class grader1:
     @classmethod
     def evaluate(cls, qram_4q):
         # update team
-        if 'TEAMID' in os.environ:
+        if "TEAMID" in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
             cls.return_json["team-id"] = "NO TEAMID"
-            print("Please add your TEAMID as an env variable") 
+            print("Please add your TEAMID as an env variable")
+            return
+
         tle = False
 
         try:
@@ -167,7 +169,15 @@ class grader1:
 
         # post the json to server
 
-        append_values([cls.return_json["team-id"],"5.1",cls.return_json["problem"]["5.1"]["points"],cls.return_json["problem"]["5.1"]["done"],cls.return_json["problem"]["5.1"]["wrong"]])
+        append_values(
+            [
+                cls.return_json["team-id"],
+                "5.1",
+                cls.return_json["problem"]["5.1"]["points"],
+                cls.return_json["problem"]["5.1"]["done"],
+                cls.return_json["problem"]["5.1"]["wrong"],
+            ]
+        )
 
         # if request.ok:
         if success:
@@ -248,11 +258,13 @@ class grader2:
     def evaluate(cls, qram_general):
 
         # update team
-        if 'TEAMID' in os.environ:
+        if "TEAMID" in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
             cls.return_json["team-id"] = "NO TEAMID"
-            print("Please add your TEAMID as an env variable") 
+            print("Please add your TEAMID as an env variable")
+            return
+
         tle = False
         success = False
         try:
@@ -268,8 +280,15 @@ class grader2:
 
         # post the json to server : to do
 
-        append_values([cls.return_json["team-id"],"5.2",cls.return_json["problem"]["5.2"]["points"],cls.return_json["problem"]["5.2"]["done"],cls.return_json["problem"]["5.2"]["wrong"]])
-
+        append_values(
+            [
+                cls.return_json["team-id"],
+                "5.2",
+                cls.return_json["problem"]["5.2"]["points"],
+                cls.return_json["problem"]["5.2"]["done"],
+                cls.return_json["problem"]["5.2"]["wrong"],
+            ]
+        )
 
         # if request.ok:
         if success:
@@ -352,11 +371,13 @@ class grader3:
     @classmethod
     def evaluate(cls, qram_general):
         # update team
-        if 'TEAMID' in os.environ:
+        if "TEAMID" in os.environ:
             cls.return_json["team-id"] = cls.get_team_id()
         else:
             cls.return_json["team-id"] = "NO TEAMID"
-            print("Please add your TEAMID as an env variable") 
+            print("Please add your TEAMID as an env variable")
+            return
+
         tle = False
 
         try:
@@ -372,8 +393,15 @@ class grader3:
 
         # post the json to server : to do
 
-        append_values([cls.return_json["team-id"],"5.3",cls.return_json["problem"]["5.3"]["points"],cls.return_json["problem"]["5.3"]["done"],cls.return_json["problem"]["5.3"]["wrong"]])
-
+        append_values(
+            [
+                cls.return_json["team-id"],
+                "5.3",
+                cls.return_json["problem"]["5.3"]["points"],
+                cls.return_json["problem"]["5.3"]["done"],
+                cls.return_json["problem"]["5.3"]["wrong"],
+            ]
+        )
 
         # if request.ok:
         if success:
