@@ -1,0 +1,3 @@
+include src/grader/**/*.txt
+include src/grader/**/*.py
+include src/grader/**/*.ipynb
