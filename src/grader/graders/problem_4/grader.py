@@ -299,7 +299,8 @@ class grader3:
 
     @classmethod
     def get_team_id(cls):
-        pass
+        value = os.getenv("TEAMID", "Please enter your TEAMID")
+        return value
 
     @staticmethod
     def run(dj_circuit_general):
