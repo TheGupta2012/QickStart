@@ -29,8 +29,11 @@ def time_limit(seconds):
 # some global values
 PI_2 = pi / 2
 
-INPUT_PATH = "src/grader/graders/problem_3/tests/inputs/"
-OUTPUT_PATH = "src/grader/graders/problem_3/tests/outputs/"
+script_dir = os.path.dirname(__file__)
+REL_INPUT_PATH = "./tests/inputs/"
+REL_OUTPUT_PATH = "./tests/outputs/"
+INPUT_PATH = os.path.join(script_dir, REL_INPUT_PATH)
+OUTPUT_PATH = os.path.join(script_dir, REL_OUTPUT_PATH)
 
 CORRECT_STMT = "Congratulations, your answer is correct!"
 WRONG_STMT = "Uh-oh, that's not quite correct :("
